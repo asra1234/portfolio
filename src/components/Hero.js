@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaEnvelope, FaDownload } from 'react-icons/fa';
 import './Hero.css';
 
 const Hero = () => {
@@ -73,6 +73,15 @@ const Hero = () => {
             whileTap={{ scale: 0.95 }}
           >
             Get In Touch
+          </motion.a>
+          <motion.a
+            href="/asra_CV.pdf"
+            download="Fathima_Asra_Suhair_CV.pdf"
+            className="btn btn-download"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <FaDownload /> Download CV
           </motion.a>
         </motion.div>
 

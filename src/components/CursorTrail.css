@@ -1,0 +1,81 @@
+.starfield-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+  background: linear-gradient(180deg, #000000 0%, #0a0a1a 50%, #1a0a2e 100%);
+}
+
+.star {
+  position: absolute;
+  background: #ffffff;
+  border-radius: 50%;
+  pointer-events: none;
+  transition: all 0.1s ease-out;
+  box-shadow: 
+    0 0 6px rgba(255, 255, 255, 1),
+    0 0 12px rgba(255, 255, 255, 0.7),
+    0 0 20px rgba(255, 255, 255, 0.4);
+  animation: twinkle 3s infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+}
+
+/* Add some shooting stars for extra effect */
+.starfield-container::before,
+.starfield-container::after {
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8);
+  animation: shootingStar 10s linear infinite;
+}
+
+.starfield-container::before {
+  top: 20%;
+  left: 10%;
+  animation-delay: 2s;
+}
+
+.starfield-container::after {
+  top: 60%;
+  left: 80%;
+  animation-delay: 7s;
+}
+
+@keyframes shootingStar {
+  0% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(300px, 300px);
+    opacity: 0;
+  }
+}
+
+/* Responsive: Reduce star count effect on mobile */
+@media (max-width: 768px) {
+  .star {
+    transition: all 0.2s ease-out;
+  }
+}

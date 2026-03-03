@@ -1,65 +1,102 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
 import './Projects.css';
+
+// Import project images
+import ecomAppImg1 from '../assets/e-commerce-app/Screenshot_20240614_093549.jpg';
+import ecomAppImg2 from '../assets/e-commerce-app/Screenshot_20240614_094352.jpg';
+import ecomWebImg1 from '../assets/e-commerce-website/Screenshot 2024-10-18 121953.png';
+import ecomWebImg2 from '../assets/e-commerce-website/Screenshot 2026-03-03 203207.png';
+import eFineImg1 from '../assets/e-fine/Login.png';
+import eFineImg2 from '../assets/e-fine/add_fine.jpeg';
+import eFineImg3 from '../assets/e-fine/Driver_login.jpeg';
+import eFineImg4 from '../assets/e-fine/officer_home.jpeg';
+
+// Project data
+const projects = [
+  {
+    title: 'Online Traffic Fine Payment System',
+    subtitle: 'OCR-Based Final Year Project',
+    description:
+      'Designed and developed an OCR-based system to automatically extract data from driving licenses and vehicle number plates. Built mobile applications for police officers and drivers and a web-based admin dashboard. Automated traffic violation detection and fine generation with minimal manual input.',
+    features: [
+      'OCR data extraction from licenses & plates',
+      'Mobile apps for police & drivers',
+      'Web-based admin dashboard',
+      'Automated violation detection',
+      'Secure online payment integration',
+      'Trained OCR models using Kaggle datasets',
+    ],
+    technologies: ['Tesseract OCR', 'Flutter', 'React.js', 'Node.js', 'MS SQL Server'],
+    gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    images: [eFineImg1, eFineImg2, eFineImg3, eFineImg4],
+  },
+  {
+    title: 'E-Commerce Web Application',
+    subtitle: 'Full-Stack Laravel Project',
+    description:
+      'Developed a comprehensive full-stack e-commerce web application using Laravel (PHP). Implemented robust product management, user authentication, and order handling systems with a responsive UI designed using Livewire and Tailwind CSS.',
+    features: [
+      'Complete product management',
+      'Secure user authentication',
+      'Order handling system',
+      'Responsive UI with Livewire',
+      'MySQL database integration',
+      'Admin panel for management',
+    ],
+    technologies: ['Laravel', 'PHP', 'MySQL', 'Livewire', 'Tailwind CSS'],
+    gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+    images: [ecomWebImg1, ecomWebImg2],
+  },
+  {
+    title: 'E-Commerce Mobile Application',
+    subtitle: 'Flutter & Firebase Project',
+    description:
+      'Developed a full-stack mobile e-commerce application using Flutter and Firebase. Implemented user authentication, product listings, cart, and order management with REST APIs for dynamic data handling.',
+    features: [
+      'User authentication with Firebase',
+      'Product listings & search',
+      'Shopping cart functionality',
+      'Order management system',
+      'REST API integration',
+      'Firebase Firestore database',
+    ],
+    technologies: ['Flutter', 'Dart', 'Firebase', 'Firestore', 'REST APIs'],
+    gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+    images: [ecomAppImg1, ecomAppImg2],
+  },
+];
 
 const Projects = () => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
+  
+  const [hoveredProject, setHoveredProject] = useState(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState({});
 
-  const projects = [
-    {
-      title: 'Online Traffic Fine Payment System',
-      subtitle: 'OCR-Based Final Year Project',
-      description:
-        'Designed and developed an OCR-based system to automatically extract data from driving licenses and vehicle number plates. Built mobile applications for police officers and drivers and a web-based admin dashboard. Automated traffic violation detection and fine generation with minimal manual input.',
-      features: [
-        'OCR data extraction from licenses & plates',
-        'Mobile apps for police & drivers',
-        'Web-based admin dashboard',
-        'Automated violation detection',
-        'Secure online payment integration',
-        'Trained OCR models using Kaggle datasets',
-      ],
-      technologies: ['Tesseract OCR', 'Flutter', 'React.js', 'Node.js', 'MS SQL Server'],
-      gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-    },
-    {
-      title: 'E-Commerce Web Application',
-      subtitle: 'Full-Stack Laravel Project',
-      description:
-        'Developed a comprehensive full-stack e-commerce web application using Laravel (PHP). Implemented robust product management, user authentication, and order handling systems with a responsive UI designed using Livewire and Tailwind CSS.',
-      features: [
-        'Complete product management',
-        'Secure user authentication',
-        'Order handling system',
-        'Responsive UI with Livewire',
-        'MySQL database integration',
-        'Admin panel for management',
-      ],
-      technologies: ['Laravel', 'PHP', 'MySQL', 'Livewire', 'Tailwind CSS'],
-      gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-    },
-    {
-      title: 'E-Commerce Mobile Application',
-      subtitle: 'Flutter & Firebase Project',
-      description:
-        'Developed a full-stack mobile e-commerce application using Flutter and Firebase. Implemented user authentication, product listings, cart, and order management with REST APIs for dynamic data handling.',
-      features: [
-        'User authentication with Firebase',
-        'Product listings & search',
-        'Shopping cart functionality',
-        'Order management system',
-        'REST API integration',
-        'Firebase Firestore database',
-      ],
-      technologies: ['Flutter', 'Dart', 'Firebase', 'Firestore', 'REST APIs'],
-      gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-    },
-  ];
+  // Auto-cycle images on hover
+  useEffect(() => {
+    let interval;
+    if (hoveredProject !== null) {
+      interval = setInterval(() => {
+        setCurrentImageIndex((prev) => {
+          const project = projects[hoveredProject];
+          const currentIndex = prev[hoveredProject] || 0;
+          const nextIndex = (currentIndex + 1) % project.images.length;
+          return { ...prev, [hoveredProject]: nextIndex };
+        });
+      }, 2000); // Change image every 2 seconds
+    } else {
+      setCurrentImageIndex({});
+    }
+
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [hoveredProject]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -97,17 +134,34 @@ const Projects = () => {
         </motion.div>
 
         <div className="projects-grid">
-          {projects.map((project, index) => (
-            <motion.div
-              key={index}
-              className="project-card"
-              variants={projectVariants}
-              whileHover={{ y: -10 }}
-              transition={{ type: 'spring', stiffness: 300 }}
-            >
-              <div className="project-header" style={{ background: project.gradient }}>
-                <div className="project-number">0{index + 1}</div>
-              </div>
+          {projects.map((project, index) => {
+            const imageIndex = currentImageIndex[index] || 0;
+            const currentImage = project.images[imageIndex];
+            
+            return (
+              <motion.div
+                key={index}
+                className="project-card"
+                variants={projectVariants}
+                whileHover={{ y: -10 }}
+                transition={{ type: 'spring', stiffness: 300 }}
+                onMouseEnter={() => setHoveredProject(index)}
+                onMouseLeave={() => setHoveredProject(null)}
+              >
+                <div className="project-header" style={{ background: project.gradient }}>
+                  {project.images && project.images.length > 0 && (
+                    <img 
+                      src={currentImage} 
+                      alt={project.title} 
+                      className="project-image"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        e.target.nextSibling.style.display = 'flex';
+                      }}
+                    />
+                  )}
+                  <div className="project-number" style={{ display: project.images && project.images.length > 0 ? 'none' : 'flex' }}>0{index + 1}</div>
+                </div>
 
               <div className="project-content">
                 <h3 className="project-title">{project.title}</h3>
@@ -153,7 +207,8 @@ const Projects = () => {
                 */}
               </div>
             </motion.div>
-          ))}
+            );
+          })}
         </div>
       </motion.div>
     </section>

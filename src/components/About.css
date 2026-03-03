@@ -1,6 +1,6 @@
 .about {
   min-height: 100vh;
-  background: #0f0f0f;
+  background: rgba(15, 15, 15, 0.7);
   padding: 6rem 2rem;
   position: relative;
 }

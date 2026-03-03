@@ -61,7 +61,8 @@ const About = () => {
             <p>
               I am a <span className="highlight">Software Engineering undergraduate</span> with 
               a strong passion for building scalable, secure, and user-focused applications. 
-              I have hands-on experience in full-stack development using Laravel, React.js, 
+              I am fluent in <span className="highlight">ASP.NET and C#</span>, and have 
+              hands-on experience in full-stack development using Laravel, React.js, 
               Node.js, and Flutter, along with cloud deployment using AWS.
             </p>
             <p>

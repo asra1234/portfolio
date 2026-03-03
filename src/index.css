@@ -5,11 +5,18 @@
   scroll-behavior: smooth;
 }
 
+html {
+  background: #000000;
+}
+
 body {
   font-family: 'Poppins', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  background: #000000;
+  margin: 0;
+  padding: 0;
 }
 
 code {
